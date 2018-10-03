@@ -21,4 +21,6 @@ exports.hourly_job = functions.pubsub
       const dataString = Buffer.from(message.data, 'base64').toString();
       console.log(`Message Data: ${dataString}`);
     }
+
+    return true;
   });

@@ -72,8 +72,8 @@ $ gcloud app create
 # You can also run 'npm run deploy'
 $ gcloud app deploy app.yaml cron.yaml
 ```
-6. Open [Google Cloud Logging](https://console.cloud.google.com/logs/viewer) and in the right dropdown select "GAE Application". If you don't see this option, it may mean that App Engine is still in the process of deploying.
-7. Look for a log entry calling `/_ah/start`. If this entry isn't an error, then you're done deploying the App Engine app.
+6. Open `https://YOUR_PROJECT_ID.appspot.com` to make sure your AppEngine app
+was correctly deployed. You should see a "Hello, world!" message.
 
 ### 3. Deploy to Google Cloud Functions for Firebase
 
@@ -87,11 +87,14 @@ If you have existing functions, move the example from [functions/index.js](funct
 into your project's `index.js`
 
 ### 4. Verify your Cron Jobs
-We can verify that our function is wired up correctly by opening the [Task Queue](https://console.cloud.google.com/appengine/taskqueues) tab in AppEngine and
-clicking on **Cron Jobs**. Each of these jobs has a **Run Now** button next to it.
+We can verify that our function is wired up correctly by opening the [Cron jobs](https://console.cloud.google.com/appengine/cronjobs) tab in AppEngine.
 
 The sample functions we deployed only has one function: `hourly_job`. To trigger
-this job, let's hit the **Run Now** button for the `/publish/hourly-tick` job.
+this function, manually send a PubSub message from the command line:
+
+```
+gcloud pubsub topics publish hourly-tick --message="Hello!"
+```
 
 Then, go to your terminal and run...
 
@@ -99,7 +102,13 @@ Then, go to your terminal and run...
 $ firebase functions:log --project <FIREBASE_PROJECT_ID>
 ```
 
-You should see a successful `console.log` from your `hourly_job`.
+You should see some logs like this:
+
+```
+2018-10-03T22:01:16.127718376Z D hourly_job: Function execution started
+2018-10-03T22:01:16.310Z I hourly_job: This job is run every hour!
+2018-10-03T22:01:16.390Z I hourly_job: Message Data: Hello!
+```
 
 ### 5. You're Done!
 
