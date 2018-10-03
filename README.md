@@ -29,8 +29,7 @@ The overview for configuring and running this sample is as follows:
 * Create a Developers Console project.
     1. Install (or check that you have previously installed)
         * [`git`](https://git-scm.com/downloads)
-        * [Python 2.7](https://www.python.org/download/releases/2.7/)
-        * [Python `pip`](https://pip.pypa.io/en/latest/installing.html)
+        * [`node` and `npm`](https://nodejs.org/en/)
         * [Google Cloud SDK](http://cloud.google.com/sdk/)
     2. [Enable the Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub&redirect=https://console.cloud.google.com)
     3. [Enable Project Billing](https://support.google.com/cloud/answer/6293499#enable-billing)
@@ -60,9 +59,9 @@ $ gcloud config set project <your-project-id>
 ```
 $ cd appengine/
 ```
-3. Install the Python dependencies
+3. Install the Node dependencies
 ```
-$ pip install -t lib -r requirements.txt
+$ npm install
 ```
 4. Create an App Engine App
 ```
@@ -70,7 +69,8 @@ $ gcloud app create
 ```
 5. Deploy the application to App Engine.
 ```
-$ gcloud app deploy app.yaml \cron.yaml
+# You can also run 'npm run deploy'
+$ gcloud app deploy app.yaml cron.yaml
 ```
 6. Open [Google Cloud Logging](https://console.cloud.google.com/logs/viewer) and in the right dropdown select "GAE Application". If you don't see this option, it may mean that App Engine is still in the process of deploying.
 7. Look for a log entry calling `/_ah/start`. If this entry isn't an error, then you're done deploying the App Engine app.
@@ -109,7 +109,7 @@ in the AppEngine app. You can add more scheduled functions by modifying the [cro
 
 ## License
 
-Copyright 2017 Google Inc. All Rights Reserved.
+Copyright 2018 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

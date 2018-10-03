@@ -11,10 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+const functions = require('firebase-functions');
 
-var functions = require('firebase-functions');
-
-exports.hourly_job =
-  functions.pubsub.topic('hourly-tick').onPublish((event) => {
-    console.log("This job is run every hour!")
+exports.hourly_job = functions.pubsub
+  .topic('hourly-tick')
+  .onPublish((message) => {
+    console.log("This job is run every hour!");
+    if (message.data) {
+      const dataString = Buffer.from(message.data, 'base64').toString();
+      console.log(`Message Data: ${dataString}`);
+    }
   });
