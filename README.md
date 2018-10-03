@@ -29,8 +29,7 @@ The overview for configuring and running this sample is as follows:
 * Create a Developers Console project.
     1. Install (or check that you have previously installed)
         * [`git`](https://git-scm.com/downloads)
-        * [Python 2.7](https://www.python.org/download/releases/2.7/)
-        * [Python `pip`](https://pip.pypa.io/en/latest/installing.html)
+        * [`node` and `npm`](https://nodejs.org/en/)
         * [Google Cloud SDK](http://cloud.google.com/sdk/)
     2. [Enable the Pub/Sub API](https://console.cloud.google.com/flows/enableapi?apiid=pubsub&redirect=https://console.cloud.google.com)
     3. [Enable Project Billing](https://support.google.com/cloud/answer/6293499#enable-billing)
@@ -60,9 +59,9 @@ $ gcloud config set project <your-project-id>
 ```
 $ cd appengine/
 ```
-3. Install the Python dependencies
+3. Install the Node dependencies
 ```
-$ pip install -t lib -r requirements.txt
+$ npm install
 ```
 4. Create an App Engine App
 ```
@@ -70,10 +69,11 @@ $ gcloud app create
 ```
 5. Deploy the application to App Engine.
 ```
-$ gcloud app deploy app.yaml \cron.yaml
+# You can also run 'npm run deploy'
+$ gcloud app deploy app.yaml cron.yaml
 ```
-6. Open [Google Cloud Logging](https://console.cloud.google.com/logs/viewer) and in the right dropdown select "GAE Application". If you don't see this option, it may mean that App Engine is still in the process of deploying.
-7. Look for a log entry calling `/_ah/start`. If this entry isn't an error, then you're done deploying the App Engine app.
+6. Open `https://YOUR_PROJECT_ID.appspot.com` to make sure your AppEngine app
+was correctly deployed. You should see a "Hello, world!" message.
 
 ### 3. Deploy to Google Cloud Functions for Firebase
 
@@ -87,19 +87,28 @@ If you have existing functions, move the example from [functions/index.js](funct
 into your project's `index.js`
 
 ### 4. Verify your Cron Jobs
-We can verify that our function is wired up correctly by opening the [Task Queue](https://console.cloud.google.com/appengine/taskqueues) tab in AppEngine and
-clicking on **Cron Jobs**. Each of these jobs has a **Run Now** button next to it.
+We can verify that our function is wired up correctly by opening the [Cron jobs](https://console.cloud.google.com/appengine/cronjobs) tab in AppEngine.
 
 The sample functions we deployed only has one function: `hourly_job`. To trigger
-this job, let's hit the **Run Now** button for the `/publish/hourly-tick` job.
+this function, manually send a PubSub message from the command line:
+
+```shell
+$ gcloud pubsub topics publish hourly-tick --message="Hello!"
+```
 
 Then, go to your terminal and run...
 
-```
+```shell
 $ firebase functions:log --project <FIREBASE_PROJECT_ID>
 ```
 
-You should see a successful `console.log` from your `hourly_job`.
+You should see some logs like this:
+
+```
+2018-10-03T22:01:16.127718376Z D hourly_job: Function execution started
+2018-10-03T22:01:16.310Z I hourly_job: This job is run every hour!
+2018-10-03T22:01:16.390Z I hourly_job: Message Data: Hello!
+```
 
 ### 5. You're Done!
 
@@ -109,7 +118,7 @@ in the AppEngine app. You can add more scheduled functions by modifying the [cro
 
 ## License
 
-Copyright 2017 Google Inc. All Rights Reserved.
+Copyright 2018 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
