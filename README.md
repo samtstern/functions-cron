@@ -92,13 +92,13 @@ We can verify that our function is wired up correctly by opening the [Cron jobs]
 The sample functions we deployed only has one function: `hourly_job`. To trigger
 this function, manually send a PubSub message from the command line:
 
-```
-gcloud pubsub topics publish hourly-tick --message="Hello!"
+```shell
+$ gcloud pubsub topics publish hourly-tick --message="Hello!"
 ```
 
 Then, go to your terminal and run...
 
-```
+```shell
 $ firebase functions:log --project <FIREBASE_PROJECT_ID>
 ```
 
