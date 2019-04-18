@@ -13,6 +13,10 @@ const app = express();
 // For any request to /public/{some_topic}, push a simple
 // PubSub message to that topic.
 app.get('/publish/:topic', async (req, res) => {
+  if (!req.header('X-AppEngine-Cron')) {
+    return res.status(403).send('Unauthorized: only the app engine cron can call this')
+  }
+
   const topic = req.params['topic'];
 
   try {
