@@ -1,6 +1,14 @@
 # App Engine Cron with Google Cloud Functions for Firebase
 
-![status: inactive](https://img.shields.io/badge/status-inactive-red.svg)
+## Status
+
+![Status: Archived](https://img.shields.io/badge/Status-Archived-red)
+
+This library is no longer actively maintained. We **do not recommend** using this library in production.
+
+If you maintain a fork of this library that you believe is healthier than the official version, we may consider recommending your fork.  Please open a Pull Request if you believe that is the case.
+
+## Introduction
 
 This repo is now **DEPRECATED** because it is no longer necessary. As of 
 April 2019 Cloud Functions for Firebase now has first class support for
